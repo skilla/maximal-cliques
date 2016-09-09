@@ -1,2 +1,2 @@
 # MaximalCliques
-Bundle to resolve Maximal Cliques in undirected graph
+Library(s) to resolve Maximal Cliques in undirected graph
