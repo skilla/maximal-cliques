@@ -1,12 +1,12 @@
 {
-  "name":              "skilla/MaximalCliques",
+  "name":              "Skilla/MaximalCliques",
   "description":       "Library(s) to resolve Maximal Cliques in undirected graph",
   "keywords":          ["Maximal Cliques", "Bron–Kerbosch", "algorithm", "complete graph", "undirected graph"],
   "type":              "library",
   "license":           "GNU",
 
   "require": {
-    "php":           ">=5.3.0",
+    "php":             ">=5.3.0",
     "phpunit/phpunit": "~4.5"
   },
 
