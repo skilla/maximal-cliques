@@ -36,11 +36,6 @@ class BronKerboschAlgorithms
     private $weights;
 
     /**
-     * @var array $g
-     */
-    private $g;
-
-    /**
      * @var array $completeGraphs
      */
     private $completeGraphs;
@@ -119,11 +114,6 @@ class BronKerboschAlgorithms
         $this->completeGraphs = [];
         $this->extractCompleteGraphsWithVertexOrdering($this->r, $this->p, $this->x);
         return $this->completeGraphs;
-    }
-
-    private function generateGVector()
-    {
-        $this->g = [];
     }
 
     private function extractRelatedVertex($needle)

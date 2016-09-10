@@ -117,4 +117,37 @@ class BronKerboschAlgorithmsTest extends \PHPUnit_Framework_TestCase
             $algorithm->obtainCompleteGraphsWithVertexOrdering()
         );
     }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function testObtainCompleteGraphsWithPivotingThrowsException()
+    {
+        $algorithm = new BronKerboschAlgorithms();
+        $algorithm->setDataTransformer(new DataTransformerExample());
+
+        $algorithm->setRVector([]);
+        $algorithm->setPVector(
+            [
+                23=>'Philip',
+                56=>'Martha',
+                17=>'Louis',
+                107=>'John',
+                47=>'Agnes',
+                12=>'James'
+            ]
+        );
+        $algorithm->setXVector([]);
+        $algorithm->setNVector(
+            [
+                 23=>[23=>0, 56=>0, 17=>0, 107=>0, 47=>0, 12=>0],
+                 56=>[23=>0, 56=>0, 17=>0, 107=>0, 47=>0, 12=>0],
+                 17=>[23=>0, 56=>0, 17=>0, 107=>0, 47=>0, 12=>0],
+                107=>[23=>0, 56=>0, 17=>0, 107=>0, 47=>0, 12=>0],
+                 47=>[23=>0, 56=>0, 17=>0, 107=>0, 47=>0, 12=>0],
+                 12=>[23=>0, 56=>0, 17=>0, 107=>0, 47=>0, 12=>0]
+            ]
+        );
+        $algorithm->obtainCompleteGraphsWithPivoting();
+    }
 }
