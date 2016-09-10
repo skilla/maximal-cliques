@@ -24,7 +24,8 @@ For a graph G whit 6 nodes:
     3 - 2
 ```
 This will be composed of five maximal cliques:
-```[
+```
+[
     [1,2,5],
     [2,3],
     [3,4],
