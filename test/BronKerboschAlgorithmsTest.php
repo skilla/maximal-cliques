@@ -30,7 +30,7 @@ class BronKerboschAlgorithmsTest extends \PHPUnit_Framework_TestCase
                 23=>'Philip',
                 56=>'Martha',
                 17=>'Louis',
-                107=>'Jhon',
+                107=>'John',
                 47=>'Agnes',
                 12=>'James'
             ]

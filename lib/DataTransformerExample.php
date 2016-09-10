@@ -8,8 +8,6 @@
 
 namespace Skilla\MaximalCliques\lib;
 
-use Skilla\MaximalCliques\lib\DataTransformerInterface;
-
 class DataTransformerExample implements DataTransformerInterface
 {
     function obtainRVector(array $R)

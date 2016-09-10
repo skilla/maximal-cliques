@@ -12,7 +12,7 @@ interface DataTransformerInterface
 {
     /**
      * Transforms input data in a vector of keys, ex:
-     *   input -> [23=>'Philip', 56=>'Martha', 17=>'Louis', 107=>'Jhon', 47=>'Agnes', 12=>'James']
+     *   input -> [23=>'Philip', 56=>'Martha', 17=>'Louis', 107=>'John', 47=>'Agnes', 12=>'James']
      *   output -> [23, 56, 17, 107, 47, 12]
      * @param array $R
      * @return integer[]
@@ -21,7 +21,7 @@ interface DataTransformerInterface
 
     /**
      * Transforms input data in a vector of keys, ex:
-     *   input -> [23=>'Philip', 56=>'Martha', 17=>'Louis', 107=>'Jhon', 47=>'Agnes', 12=>'James']
+     *   input -> [23=>'Philip', 56=>'Martha', 17=>'Louis', 107=>'John', 47=>'Agnes', 12=>'James']
      *   output -> [23, 56, 17, 107, 47, 12]
      * @param array $P
      * @return integer[]
@@ -30,7 +30,7 @@ interface DataTransformerInterface
 
     /**
      * Transforms input data in a vector of keys, ex:
-     *   input -> [23=>'Philip', 56=>'Martha', 17=>'Louis', 107=>'Jhon', 47=>'Agnes', 12=>'James']
+     *   input -> [23=>'Philip', 56=>'Martha', 17=>'Louis', 107=>'John', 47=>'Agnes', 12=>'James']
      *   output -> [23, 56, 17, 107, 47, 12]
      * @param array $X
      * @return integer[]

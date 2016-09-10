@@ -8,8 +8,6 @@
 
 namespace Skilla\MaximalCliques\lib;
 
-use Skilla\MaximalCliques\Lib\DataTransformerInterface;
-
 class BronKerboschAlgorithms
 {
     /**
