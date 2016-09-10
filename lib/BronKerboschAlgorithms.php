@@ -209,7 +209,7 @@ class BronKerboschAlgorithms
     private function extractCompleteGraphsWithVertexOrdering($r, $p, $x)
     {
         $this->generateWeights();
-        $p = array_keys(array_intersect($this->weights, $p));
+        $p = array_intersect(array_keys($this->weights), $p);
         foreach ($p as $v) {
             $relatedVertex = $this->extractRelatedVertex($v);
             $this->extractCompleteGraphsWithPivoting(

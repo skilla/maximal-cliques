@@ -113,7 +113,7 @@ class BronKerboschAlgorithmsTest extends \PHPUnit_Framework_TestCase
             ]
         );
         $this->assertEquals(
-            [[23,47,56],[56,17],[17,107],[47,107],[12,107]],
+            [[12,107],[17,107],[17,56],[23,47,56],[107,47]],
             $algorithm->obtainCompleteGraphsWithVertexOrdering()
         );
     }
