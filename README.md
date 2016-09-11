@@ -36,7 +36,7 @@ This will be composed of five maximal cliques:
 
 ## Installation
 
-composer require "skilla/MaximalCliques"
+composer require "skilla/maximal-cliques"
 
 ## How to use
 The source code includes "DataTransformerExample" class that implements the "DataTransformerInterface" interface. The purpose of this is to serve as a test and example.  
@@ -46,44 +46,69 @@ Then follow any of the examples used to test the class in "test / BronKerboschAl
 ## Performance
 
 
-1000 repetitions with the function "obtainCompleteGraphsWithoutPivoting". Using the same data as in the test.  
+Test 1 - 1000 repetitions with the function "obtainCompleteGraphsWithoutPivoting". Using the same data as in the test.  
 Vertex: 6  
 Edges: 7  
 Cliques: 5  
 Time: 0.347 seconds  
-Memory: 786432 bytes
+Memory: 786,432 bytes
 
-1000 repetitions with the function "obtainCompleteGraphsWithPivoting". Using the same data as in the test.  
+Test 2 - 1000 repetitions with the function "obtainCompleteGraphsWithPivoting". Using the same data as in the test.  
 Vertex: 6  
 Edges: 7  
 Cliques: 5  
 Time: 0.480 seconds  
-Memory: 786432 bytes  
+Memory: 786,432 bytes  
 
-1000 repetitions with the function "obtainCompleteGraphsWithVertexOrdering". Using the same data as in the test.  
+Test 3 - 1000 repetitions with the function "obtainCompleteGraphsWithVertexOrdering". Using the same data as in the test.  
 Vertex: 6  
 Edges: 7  
 Cliques: 5  
 Time: 0.488 seconds  
-Memory: 786432 bytes  
+Memory: 786,432 bytes  
 
-One repetitions with the function "obtainCompleteGraphsWithoutPivoting". Using 100 vertex.  
+Test 4 - One repetitions with the function "obtainCompleteGraphsWithoutPivoting". Using 100 vertex.  
 Vertex: 100  
 Edges: 2507  
 Cliques: 17215  
 Time: 228.430 seconds  
-Memory: 19398656 bytes  
+Memory: 19,398,656 bytes  
 
-One repetitions with the function "obtainCompleteGraphsWithPivoting". Using 100 vertex.  
+Test 5 - One repetitions with the function "obtainCompleteGraphsWithPivoting". Using 100 vertex.  
 Vertex: 100  
 Edges: 2507  
 Cliques: 17215  
 Time: 199.249 seconds  
-Memory: 19398656 bytes  
+Memory: 19,398,656 bytes  
 
-One repetitions with the function "obtainCompleteGraphsWithVertexOrdering". Using 100 vertex.  
+Test 6 - One repetitions with the function "obtainCompleteGraphsWithVertexOrderingForVertex". Using 100 vertex.  
 Vertex: 100  
 Edges: 2507  
 Cliques: 17215  
 Time: 157.969 seconds  
-Memory: 19398656 bytes  
+Memory: 19,398,656 bytes  
+
+Test 7 - One repetitions with the function "obtainCompleteGraphsWithVertexOrderingForVertex". Using 100 vertex.  
+Selected vertex: 23  
+Vertex: 100  
+Edges: 2507  
+Cliques: 768  
+Time: 2.219 seconds  
+Memory: 4,718,592 bytes  
+
+Test 8 - One repetitions with the function "obtainCompleteGraphsWithVertexOrderingWithMinimumDegree". Using 100 vertex.  
+Selected degree: 5  
+Vertex: 100  
+Edges: 2507  
+Cliques: 13654  
+Time: 156.963 seconds  
+Memory: 16,252,928 bytes  
+
+Test 9 - One repetitions with the function "obtainCompleteGraphsWithVertexOrderingForVertexWithMinimumDegree". Using 100 vertex.  
+Selected vertex: 23  
+Selected degree: 5  
+Vertex: 100  
+Edges: 2507  
+Cliques: 588  
+Time: 2.240 seconds  
+Memory: 4,456,448 bytes  

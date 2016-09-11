@@ -13,10 +13,8 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use Skilla\MaximalCliques\lib\BronKerboschAlgorithms;
 use Skilla\MaximalCliques\lib\DataTransformerExample;
 
-$pVectorLittle = [];
-$nVectorLittle = [];
-$pVectorBig = [];
-$nVectorBig = [];
+$pVector = [];
+$nVector = [];
 
 function obtainCompleteGraphsWithoutPivoting($p, $n)
 {
@@ -57,14 +55,53 @@ function obtainCompleteGraphsWithVertexOrdering($p, $n)
     return $algorithm->obtainCompleteGraphsWithVertexOrdering();
 }
 
-if (sizeof($argv)<2 || 6<(int)$argv[1] || 1>(int)$argv[1]) {
+function obtainCompleteGraphsWithVertexOrderingForVertex($p, $n, $vertex)
+{
+    $algorithm = new BronKerboschAlgorithms();
+    $algorithm->setDataTransformer(new DataTransformerExample());
+
+    $algorithm->setRVector([]);
+    $algorithm->setPVector($p);
+    $algorithm->setXVector([]);
+    $algorithm->setNVector($n);
+
+    return $algorithm->obtainCompleteGraphsWithVertexOrderingForVertex($vertex);
+}
+
+function obtainCompleteGraphsWithVertexOrderingWithMinimumDegree($p, $n, $minimumDegree)
+{
+    $algorithm = new BronKerboschAlgorithms();
+    $algorithm->setDataTransformer(new DataTransformerExample());
+
+    $algorithm->setRVector([]);
+    $algorithm->setPVector($p);
+    $algorithm->setXVector([]);
+    $algorithm->setNVector($n);
+
+    return $algorithm->obtainCompleteGraphsWithVertexOrderingWithMinimumDegree($minimumDegree);
+}
+
+function obtainCompleteGraphsWithVertexOrderingForVertexWithMinimumDegree($p, $n, $vertex, $minimumDegree)
+{
+    $algorithm = new BronKerboschAlgorithms();
+    $algorithm->setDataTransformer(new DataTransformerExample());
+
+    $algorithm->setRVector([]);
+    $algorithm->setPVector($p);
+    $algorithm->setXVector([]);
+    $algorithm->setNVector($n);
+
+    return $algorithm->obtainCompleteGraphsWithVertexOrderingForVertexWithMinimumDegree($vertex, $minimumDegree);
+}
+
+if (sizeof($argv)<2 || 9<(int)$argv[1] || 1>(int)$argv[1]) {
     echo "\nUsage:\n";
     echo "  php test/Performance.php x\n";
     echo "    where x is a number from 1 to 3 for performance with little data or 4 to 6 with big data\n\n";
     die();
 }
 
-$cycles = $argv[1]<'4' ? 1000 : 1;
+$cycles = $argv[1]<'4' ? 1 : 1;
 
 $time = microtime(true);
 
@@ -72,27 +109,48 @@ for ($a=1; $a<=$cycles; $a++) {
     switch ($argv[1]) {
         case '1':
             require_once __DIR__ . '/little_data.php';
-            $cliques = count(obtainCompleteGraphsWithoutPivoting($pVectorLittle, $nVectorLittle));
+            $result = obtainCompleteGraphsWithoutPivoting($pVector, $nVector);
+            $cliques = count($result);
             break;
         case '2':
             require_once __DIR__ . '/little_data.php';
-            $cliques = count(obtainCompleteGraphsWithPivoting($pVectorLittle, $nVectorLittle));
+            $result = obtainCompleteGraphsWithPivoting($pVector, $nVector);
+            $cliques = count($result);
             break;
         case '3':
             require_once __DIR__ . '/little_data.php';
-            $cliques = count(obtainCompleteGraphsWithVertexOrdering($pVectorLittle, $nVectorLittle));
+            $result = obtainCompleteGraphsWithVertexOrdering($pVector, $nVector);
+            $cliques = count($result);
             break;
         case '4':
             require_once __DIR__ . '/big_data.php';
-            $cliques = count(obtainCompleteGraphsWithoutPivoting($pVectorBig, $nVectorBig));
+            $result = obtainCompleteGraphsWithoutPivoting($pVector, $nVector);
+            $cliques = count($result);
             break;
         case '5':
             require_once __DIR__ . '/big_data.php';
-            $cliques = count(obtainCompleteGraphsWithPivoting($pVectorBig, $nVectorBig));
+            $result = obtainCompleteGraphsWithPivoting($pVector, $nVector);
+            $cliques = count($result);
             break;
         case '6':
             require_once __DIR__ . '/big_data.php';
-            $cliques = count(obtainCompleteGraphsWithVertexOrdering($pVectorBig, $nVectorBig));
+            $result = obtainCompleteGraphsWithVertexOrdering($pVector, $nVector);
+            $cliques = count($result);
+            break;
+        case '7':
+            require_once __DIR__ . '/big_data.php';
+            $result = obtainCompleteGraphsWithVertexOrderingForVertex($pVector, $nVector, 23);
+            $cliques = count($result);
+            break;
+        case '8':
+            require_once __DIR__ . '/big_data.php';
+            $result = obtainCompleteGraphsWithVertexOrderingWithMinimumDegree($pVector, $nVector, 5);
+            $cliques = count($result);
+            break;
+        case '9':
+            require_once __DIR__ . '/big_data.php';
+            $result = obtainCompleteGraphsWithVertexOrderingForVertexWithMinimumDegree($pVector, $nVector, 23, 5);
+            $cliques = count($result);
             break;
     }
 }
@@ -100,3 +158,4 @@ for ($a=1; $a<=$cycles; $a++) {
 echo sprintf("Cliques: %s\n", $cliques);
 echo sprintf("Time: %1.3F seconds\n", microtime(true)-$time);
 echo sprintf("Memory: %s bytes\n", memory_get_peak_usage(true));
+var_dump($result);
