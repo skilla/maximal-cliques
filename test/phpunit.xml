@@ -21,10 +21,9 @@
 
     <filter>
         <whitelist>
-            <directory>../test</directory>
             <directory>../lib</directory>
             <exclude>
-                <directory>../test/Resources</directory>
+                <directory>../test</directory>
             </exclude>
         </whitelist>
     </filter>
