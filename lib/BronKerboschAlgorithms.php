@@ -31,12 +31,12 @@ class BronKerboschAlgorithms
     private $n;
 
     /**
-     * @var string $selectedVertex
+     * @var integer $selectedVertex
      */
     private $selectedVertex;
 
     /**
-     * @var string $selectedDegree
+     * @var integer $selectedDegree
      */
     private $selectedDegree;
 
@@ -146,7 +146,8 @@ class BronKerboschAlgorithms
     }
 
     /**
-     * return array
+     * @param integer $vertex
+     * @return array
      */
     public function obtainCompleteGraphsWithVertexOrderingForVertex($vertex)
     {
@@ -159,7 +160,8 @@ class BronKerboschAlgorithms
     }
 
     /**
-     * return array
+     * @param integer $minimumDegree
+     * @return array
      */
     public function obtainCompleteGraphsWithVertexOrderingWithMinimumDegree($minimumDegree)
     {
@@ -172,7 +174,9 @@ class BronKerboschAlgorithms
     }
 
     /**
-     * return array
+     * @param integer $vertex
+     * @param integer $minimumDegree
+     * @return array
      */
     public function obtainCompleteGraphsWithVertexOrderingForVertexWithMinimumDegree($vertex, $minimumDegree)
     {
@@ -292,7 +296,7 @@ class BronKerboschAlgorithms
     private function extractCompleteGraphsWithPivoting($r, $p, $x)
     {
         if (empty($p) && empty($x)) {
-            if ((is_null($this->selectedVertex) || in_array($this->selectedVertex, $r)) && (is_null($this->selectedDegree) || count($r)>=$this->selectedDegree+1)) {
+            if ($this->containsVertex($r) && $this->isDegreeCompliant($r)) {
                 $this->completeGraphs[] = $r;
             }
             return;
@@ -313,6 +317,16 @@ class BronKerboschAlgorithms
             unset($p[array_search($v, $p)]);
             $x = array_values(array_merge($x, [$v]));
         }
+    }
+
+    private function containsVertex($graph)
+    {
+        return is_null($this->selectedVertex) || in_array($this->selectedVertex, $graph);
+    }
+
+    private function isDegreeCompliant($graph)
+    {
+        return is_null($this->selectedDegree) || count($graph) >= $this->selectedDegree+1;
     }
 
     private function extractCompleteGraphsWithVertexOrdering($r, $p, $x)

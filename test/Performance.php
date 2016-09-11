@@ -101,7 +101,8 @@ if (sizeof($argv)<2 || 9<(int)$argv[1] || 1>(int)$argv[1]) {
     die();
 }
 
-$cycles = $argv[1]<'4' ? 1 : 1;
+$cycles = $argv[1]<'4' ? 1000 : 1;
+$cliques = 0;
 
 $time = microtime(true);
 
@@ -158,4 +159,3 @@ for ($a=1; $a<=$cycles; $a++) {
 echo sprintf("Cliques: %s\n", $cliques);
 echo sprintf("Time: %1.3F seconds\n", microtime(true)-$time);
 echo sprintf("Memory: %s bytes\n", memory_get_peak_usage(true));
-var_dump($result);
