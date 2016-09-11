@@ -12,8 +12,15 @@ This implementation of Bron–Kerbosch's algorithm include three methods:
 - Pivoting resolution (obtainCompleteGraphsWithPivoting)
 - Vertex ordering resolution (obtainCompleteGraphsWithVertexOrdering)
 
+And three methods based on "obtainCompleteGraphsWithVertexOrdering" for advancing search and less time of resolution:
+- Only cliques that include a specific vertex (obtainCompleteGraphsWithVertexOrderingForVertex)
+- Only cliques whose degree is equal to or greater than the specified (obtainCompleteGraphsWithVertexOrderingWithMinimumDegree)
+- Only cliques that include a specific vertex and whose degree is equal to or greater than the specified (obtainCompleteGraphsWithVertexOrderingForVertexWithMinimumDegree)
 
-The three implementations return a array of maximal cliques each represented in an array of vertex.
+Finally, a function is included to collect the clique larger than those generated with one of the previous six functions.
+- (retrieveMaximalClique)
+
+The six implementations return a array of maximal cliques each represented in an array of vertex, "retrieveMaximalClique" returns a array of vertex.
 
 For a graph G whit 6 nodes:
 ```
