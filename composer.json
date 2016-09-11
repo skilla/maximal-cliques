@@ -1,6 +1,6 @@
 {
   "name":              "skilla/maximal-cliques",
-  "description":       "Library(s) to resolve Maximal Cliques in undirected graph",
+  "description":       "Library to resolve Maximal Cliques in undirected graph",
   "keywords":          ["Maximal Cliques", "Bron Kerbosch", "algorithm", "complete graph", "undirected graph"],
   "type":              "library",
   "license":           "GNU",
