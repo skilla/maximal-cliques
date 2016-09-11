@@ -83,6 +83,10 @@ class BronKerboschAlgorithmsTest extends \PHPUnit_Framework_TestCase
             [[23,47,56],[56,17],[17,107],[47,107],[12,107]],
             $algorithm->obtainCompleteGraphsWithPivoting()
         );
+        $this->assertEquals(
+            [23,47,56],
+            $algorithm->retrieveMaximalClique()
+        );
     }
 
     public function testObtainCompleteGraphsWithVertexOrdering()

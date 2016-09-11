@@ -188,6 +188,23 @@ class BronKerboschAlgorithms
         return $this->completeGraphs;
     }
 
+    /**
+     * @return array
+     */
+    public function retrieveMaximalClique()
+    {
+        usort($this->completeGraphs, array($this, 'sizeCompare'));
+        return $this->completeGraphs[0];
+    }
+
+    private function sizeCompare($a, $b)
+    {
+        if (count($a) == count($b)) {
+            return 0;
+        }
+        return (count($a) > count($b)) ? -1 : 1;
+    }
+
     private function filterInputData()
     {
         if ($this->filterWeightsVersion !== "$this->selectedVertex#$this->selectedDegree") {
