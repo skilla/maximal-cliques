@@ -13,17 +13,17 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use Skilla\MaximalCliques\lib\BronKerboschAlgorithms;
 use Skilla\MaximalCliques\lib\DataTransformerExample;
 
-$pVector = [];
-$nVector = [];
+$pVector = array();
+$nVector = array();
 
 function obtainCompleteGraphsWithoutPivoting($p, $n)
 {
     $algorithm = new BronKerboschAlgorithms();
     $algorithm->setDataTransformer(new DataTransformerExample());
 
-    $algorithm->setRVector([]);
+    $algorithm->setRVector(array());
     $algorithm->setPVector($p);
-    $algorithm->setXVector([]);
+    $algorithm->setXVector(array());
     $algorithm->setNVector($n);
 
     return $algorithm->obtainCompleteGraphsWithoutPivoting();
@@ -34,9 +34,9 @@ function obtainCompleteGraphsWithPivoting($p, $n)
     $algorithm = new BronKerboschAlgorithms();
     $algorithm->setDataTransformer(new DataTransformerExample());
 
-    $algorithm->setRVector([]);
+    $algorithm->setRVector(array());
     $algorithm->setPVector($p);
-    $algorithm->setXVector([]);
+    $algorithm->setXVector(array());
     $algorithm->setNVector($n);
 
     return $algorithm->obtainCompleteGraphsWithPivoting();
@@ -47,9 +47,9 @@ function obtainCompleteGraphsWithVertexOrdering($p, $n)
     $algorithm = new BronKerboschAlgorithms();
     $algorithm->setDataTransformer(new DataTransformerExample());
 
-    $algorithm->setRVector([]);
+    $algorithm->setRVector(array());
     $algorithm->setPVector($p);
-    $algorithm->setXVector([]);
+    $algorithm->setXVector(array());
     $algorithm->setNVector($n);
 
     return $algorithm->obtainCompleteGraphsWithVertexOrdering();
@@ -60,9 +60,9 @@ function obtainCompleteGraphsWithVertexOrderingForVertex($p, $n, $vertex)
     $algorithm = new BronKerboschAlgorithms();
     $algorithm->setDataTransformer(new DataTransformerExample());
 
-    $algorithm->setRVector([]);
+    $algorithm->setRVector(array());
     $algorithm->setPVector($p);
-    $algorithm->setXVector([]);
+    $algorithm->setXVector(array());
     $algorithm->setNVector($n);
 
     return $algorithm->obtainCompleteGraphsWithVertexOrderingForVertex($vertex);
@@ -73,9 +73,9 @@ function obtainCompleteGraphsWithVertexOrderingWithMinimumDegree($p, $n, $minimu
     $algorithm = new BronKerboschAlgorithms();
     $algorithm->setDataTransformer(new DataTransformerExample());
 
-    $algorithm->setRVector([]);
+    $algorithm->setRVector(array());
     $algorithm->setPVector($p);
-    $algorithm->setXVector([]);
+    $algorithm->setXVector(array());
     $algorithm->setNVector($n);
 
     return $algorithm->obtainCompleteGraphsWithVertexOrderingWithMinimumDegree($minimumDegree);
@@ -86,9 +86,9 @@ function obtainCompleteGraphsWithVertexOrderingForVertexWithMinimumDegree($p, $n
     $algorithm = new BronKerboschAlgorithms();
     $algorithm->setDataTransformer(new DataTransformerExample());
 
-    $algorithm->setRVector([]);
+    $algorithm->setRVector(array());
     $algorithm->setPVector($p);
-    $algorithm->setXVector([]);
+    $algorithm->setXVector(array());
     $algorithm->setNVector($n);
 
     return $algorithm->obtainCompleteGraphsWithVertexOrderingForVertexWithMinimumDegree($vertex, $minimumDegree);

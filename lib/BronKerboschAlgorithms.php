@@ -111,7 +111,7 @@ class BronKerboschAlgorithms
      */
     public function obtainCompleteGraphsWithoutPivoting()
     {
-        $this->completeGraphs = [];
+        $this->completeGraphs = array();
         $this->selectedVertex = null;
         $this->selectedDegree = null;
         $this->filterInputData();
@@ -124,7 +124,7 @@ class BronKerboschAlgorithms
      */
     public function obtainCompleteGraphsWithPivoting()
     {
-        $this->completeGraphs = [];
+        $this->completeGraphs = array();
         $this->selectedVertex = null;
         $this->selectedDegree = null;
         $this->filterInputData();
@@ -137,7 +137,7 @@ class BronKerboschAlgorithms
      */
     public function obtainCompleteGraphsWithVertexOrdering()
     {
-        $this->completeGraphs = [];
+        $this->completeGraphs = array();
         $this->selectedVertex = null;
         $this->selectedDegree = null;
         $this->filterInputData();
@@ -151,7 +151,7 @@ class BronKerboschAlgorithms
      */
     public function obtainCompleteGraphsWithVertexOrderingForVertex($vertex)
     {
-        $this->completeGraphs = [];
+        $this->completeGraphs = array();
         $this->selectedVertex = $vertex;
         $this->selectedDegree = null;
         $this->filterInputData();
@@ -165,7 +165,7 @@ class BronKerboschAlgorithms
      */
     public function obtainCompleteGraphsWithVertexOrderingWithMinimumDegree($minimumDegree)
     {
-        $this->completeGraphs = [];
+        $this->completeGraphs = array();
         $this->selectedVertex = null;
         $this->selectedDegree = $minimumDegree;
         $this->filterInputData();
@@ -180,7 +180,7 @@ class BronKerboschAlgorithms
      */
     public function obtainCompleteGraphsWithVertexOrderingForVertexWithMinimumDegree($vertex, $minimumDegree)
     {
-        $this->completeGraphs = [];
+        $this->completeGraphs = array();
         $this->selectedVertex = $vertex;
         $this->selectedDegree = $minimumDegree;
         $this->filterInputData();
@@ -219,7 +219,10 @@ class BronKerboschAlgorithms
         if (is_null($this->selectedVertex)) {
             $this->filteredN = &$this->n;
         } else {
-            $n = array_merge([$this->selectedVertex], $this->extractRelatedVertexFromN([$this->selectedVertex]));
+            $n = array_merge(
+                array($this->selectedVertex),
+                $this->extractRelatedVertexFromN(array($this->selectedVertex))
+            );
             foreach ($this->n as $edge) {
                 if (in_array($edge[0], $n) && in_array($edge[1], $n)) {
                     $this->filteredN[] = $edge;
@@ -230,7 +233,7 @@ class BronKerboschAlgorithms
 
     private function extractRelatedVertexFromN(array $needle)
     {
-        $related = [];
+        $related = array();
         foreach ($this->n as $edge) {
             if (in_array($edge[0], $needle)) {
                 $related[$edge[1]] = $edge[1];
@@ -243,12 +246,24 @@ class BronKerboschAlgorithms
         return array_values($related);
     }
 
+    private function checkVertex($related)
+    {
+        return
+            $this->selectedVertex == null ||
+            in_array(
+                $related,
+                array_merge(
+                    array($this->selectedVertex),
+                    $this->extractRelatedVertex($this->selectedVertex)
+                )
+            );
+    }
+
     private function generateFilteredWeights()
     {
-        $weights = [];
-        $relatedVertex = array_merge([$this->selectedVertex], $this->extractRelatedVertex($this->selectedVertex));
+        $weights = array();
         foreach ($this->filteredN as $related) {
-            if ($this->selectedVertex == null || in_array($related[0], $relatedVertex) || in_array($related[1], $relatedVertex)) {
+            if ( $this->checkVertex($related[0]) || $this->checkVertex($related[1])) {
                 $weights[$related[0]] = ((int)@$weights[$related[0]]) + 1;
                 $weights[$related[1]] = ((int)@$weights[$related[1]]) + 1;
             }
@@ -257,7 +272,7 @@ class BronKerboschAlgorithms
             foreach ($weights as $key => $value) {
                 if ($value < $this->selectedDegree) {
                     if ($this->selectedVertex==$key) {
-                        $weights = [];
+                        $weights = array();
                         break;
                     }
                     unset($weights[$key]);
@@ -270,7 +285,7 @@ class BronKerboschAlgorithms
 
     private function extractRelatedVertex($needle)
     {
-        $related = [];
+        $related = array();
         foreach ($this->filteredN as $edge) {
             if ($edge[0] == $needle) {
                 $related[$edge[1]] = $edge[1];
@@ -301,12 +316,12 @@ class BronKerboschAlgorithms
        foreach ($p as $v) {
            $relatedVertex = $this->extractRelatedVertex($v);
            $this->extractCompleteGraphsWithoutPivoting(
-               array_merge($r, [$v]),
+               array_merge($r, array($v)),
                array_intersect($p, $relatedVertex),
                array_intersect($x, $relatedVertex)
             );
            unset($p[array_search($v, $p)]);
-            $x = array_values(array_merge($x, [$v]));
+            $x = array_values(array_merge($x, array($v)));
        }
     }
 
@@ -327,12 +342,12 @@ class BronKerboschAlgorithms
         foreach ($reducedP as $v) {
             $relatedVertex = $this->extractRelatedVertex($v);
             $this->extractCompleteGraphsWithPivoting(
-                array_merge($r, [$v]),
+                array_merge($r, array($v)),
                 array_intersect($p, $relatedVertex),
                 array_intersect($x, $relatedVertex)
             );
             unset($p[array_search($v, $p)]);
-            $x = array_values(array_merge($x, [$v]));
+            $x = array_values(array_merge($x, array($v)));
         }
     }
 
@@ -352,12 +367,12 @@ class BronKerboschAlgorithms
         foreach ($p as $v) {
             $relatedVertex = $this->extractRelatedVertex($v);
             $this->extractCompleteGraphsWithPivoting(
-                array_merge($r, [$v]),
+                array_merge($r, array($v)),
                 array_intersect($p, $relatedVertex),
                 array_intersect($x, $relatedVertex)
             );
             unset($p[array_search($v, $p)]);
-            $x = array_values(array_merge($x, [$v]));
+            $x = array_values(array_merge($x, array($v)));
         }
     }
 
@@ -367,12 +382,12 @@ class BronKerboschAlgorithms
         foreach ($p as $v) {
             $relatedVertex = $this->extractRelatedVertex($v);
             $this->extractCompleteGraphsWithPivoting(
-                array_merge($r, [$v]),
+                array_merge($r, array($v)),
                 array_intersect($p, $relatedVertex),
                 array_intersect($x, $relatedVertex)
             );
             unset($p[array_search($v, $p)]);
-            $x = array_values(array_merge($x, [$v]));
+            $x = array_values(array_merge($x, array($v)));
         }
     }
 }

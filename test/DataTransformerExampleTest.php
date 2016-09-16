@@ -23,41 +23,52 @@ class DataTransformerExampleTest extends \PHPUnit_Framework_TestCase
 
     public function testObtainRVector()
     {
-        $data = [23=>'Philip', 56=>'Martha', 17=>'Louis', 107=>'John', 47=>'Agnes', 12=>'James'];
+        $data = array(23=>'Philip', 56=>'Martha', 17=>'Louis', 107=>'John', 47=>'Agnes', 12=>'James');
         $dataTransformer = new DataTransformerExample();
         $r = $dataTransformer->obtainRVector($data);
-        $this->assertEquals([23, 56, 17, 107, 47, 12], $r);
+        $this->assertEquals(array(23, 56, 17, 107, 47, 12), $r);
     }
 
     public function testObtainPVector()
     {
-        $data = [23=>'Philip', 56=>'Martha', 17=>'Louis', 107=>'John', 47=>'Agnes', 12=>'James'];
+        $data = array(23=>'Philip', 56=>'Martha', 17=>'Louis', 107=>'John', 47=>'Agnes', 12=>'James');
         $dataTransformer = new DataTransformerExample();
         $p = $dataTransformer->obtainPVector($data);
-        $this->assertEquals([23, 56, 17, 107, 47, 12], $p);
+        $this->assertEquals(array(23, 56, 17, 107, 47, 12), $p);
     }
 
     public function testObtainXVector()
     {
-        $data = [23=>'Philip', 56=>'Martha', 17=>'Louis', 107=>'John', 47=>'Agnes', 12=>'James'];
+        $data = array(23=>'Philip', 56=>'Martha', 17=>'Louis', 107=>'John', 47=>'Agnes', 12=>'James');
         $dataTransformer = new DataTransformerExample();
         $x = $dataTransformer->obtainXVector($data);
-        $this->assertEquals([23, 56, 17, 107, 47, 12], $x);
+        $this->assertEquals(array(23, 56, 17, 107, 47, 12), $x);
     }
 
     public function testObtainNVector()
     {
-        $data = [
-            23=>[23=>0, 56=>1, 17=>0, 107=>0, 47=>1, 12=>0],
-            56=>[23=>1, 56=>0, 17=>1, 107=>0, 47=>1, 12=>0],
-            17=>[23=>0, 56=>1, 17=>0, 107=>1, 47=>0, 12=>0],
-           107=>[23=>0, 56=>0, 17=>1, 107=>0, 47=>1, 12=>1],
-            47=>[23=>1, 56=>1, 17=>0, 107=>1, 47=>0, 12=>0],
-            12=>[23=>0, 56=>0, 17=>0, 107=>1, 47=>0, 12=>0]
-        ];
+        $data = array(
+            23=>array(23=>0, 56=>1, 17=>0, 107=>0, 47=>1, 12=>0),
+            56=>array(23=>1, 56=>0, 17=>1, 107=>0, 47=>1, 12=>0),
+            17=>array(23=>0, 56=>1, 17=>0, 107=>1, 47=>0, 12=>0),
+           107=>array(23=>0, 56=>0, 17=>1, 107=>0, 47=>1, 12=>1),
+            47=>array(23=>1, 56=>1, 17=>0, 107=>1, 47=>0, 12=>0),
+            12=>array(23=>0, 56=>0, 17=>0, 107=>1, 47=>0, 12=>0)
+        );
         $dataTransformer = new DataTransformerExample();
         $n = $dataTransformer->obtainNVector($data);
 
-        $this->assertEquals([[23,56],[23,47],[17,56],[47,56],[17,107],[47,107],[12,107]], $n);
+        $this->assertEquals(
+            array(
+                array(23,56),
+                array(23,47),
+                array(17,56),
+                array(47,56),
+                array(17,107),
+                array(47,107),
+                array(12,107)
+            ),
+            $n
+        );
     }
 }
