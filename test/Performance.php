@@ -16,80 +16,80 @@ use Skilla\MaximalCliques\lib\DataTransformerExample;
 $pVector = [];
 $nVector = [];
 
-function obtainCompleteGraphsWithoutPivoting($p, $n)
+function obtainCompleteGraphsWithoutPivoting($pVector, $nVector)
 {
     $algorithm = new BronKerboschAlgorithms();
     $algorithm->setDataTransformer(new DataTransformerExample());
 
     $algorithm->setRVector([]);
-    $algorithm->setPVector($p);
+    $algorithm->setPVector($pVector);
     $algorithm->setXVector([]);
-    $algorithm->setNVector($n);
+    $algorithm->setNVector($nVector);
 
     return $algorithm->obtainCompleteGraphsWithoutPivoting();
 }
 
-function obtainCompleteGraphsWithPivoting($p, $n)
+function obtainCompleteGraphsWithPivoting($pVector, $nVector)
 {
     $algorithm = new BronKerboschAlgorithms();
     $algorithm->setDataTransformer(new DataTransformerExample());
 
     $algorithm->setRVector([]);
-    $algorithm->setPVector($p);
+    $algorithm->setPVector($pVector);
     $algorithm->setXVector([]);
-    $algorithm->setNVector($n);
+    $algorithm->setNVector($nVector);
 
     return $algorithm->obtainCompleteGraphsWithPivoting();
 }
 
-function obtainCompleteGraphsWithVertexOrdering($p, $n)
+function obtainCompleteGraphsWithVertexOrdering($pVector, $nVector)
 {
     $algorithm = new BronKerboschAlgorithms();
     $algorithm->setDataTransformer(new DataTransformerExample());
 
     $algorithm->setRVector([]);
-    $algorithm->setPVector($p);
+    $algorithm->setPVector($pVector);
     $algorithm->setXVector([]);
-    $algorithm->setNVector($n);
+    $algorithm->setNVector($nVector);
 
     return $algorithm->obtainCompleteGraphsWithVertexOrdering();
 }
 
-function obtainCompleteGraphsWithVertexOrderingForVertex($p, $n, $vertex)
+function obtainCompleteGraphsWithVertexOrderingForVertex($pVector, $nVector, $vertex)
 {
     $algorithm = new BronKerboschAlgorithms();
     $algorithm->setDataTransformer(new DataTransformerExample());
 
     $algorithm->setRVector([]);
-    $algorithm->setPVector($p);
+    $algorithm->setPVector($pVector);
     $algorithm->setXVector([]);
-    $algorithm->setNVector($n);
+    $algorithm->setNVector($nVector);
 
     return $algorithm->obtainCompleteGraphsWithVertexOrderingForVertex($vertex);
 }
 
-function obtainCompleteGraphsWithVertexOrderingWithMinimumDegree($p, $n, $minimumDegree)
+function obtainCompleteGraphsWithVertexOrderingWithMinimumDegree($pVector, $nVector, $minimumDegree)
 {
     $algorithm = new BronKerboschAlgorithms();
     $algorithm->setDataTransformer(new DataTransformerExample());
 
     $algorithm->setRVector([]);
-    $algorithm->setPVector($p);
+    $algorithm->setPVector($pVector);
     $algorithm->setXVector([]);
-    $algorithm->setNVector($n);
+    $algorithm->setNVector($nVector);
 
     return $algorithm->obtainCompleteGraphsWithVertexOrderingWithMinimumDegree($minimumDegree);
 }
 
-function obtainCompleteGraphsWithVertexOrderingForVertexWithMinimumDegree($p, $n, $vertex, $minimumDegree)
+function obtainCompleteGraphsWithVertexOrderingForVertexWithMinimumDegree($pVector, $nVector, $vertex, $minimumDegree)
 {
     $algorithm = new BronKerboschAlgorithms();
     $algorithm->setDataTransformer(new DataTransformerExample());
 
     $algorithm->setRVector([]);
-    $algorithm->setPVector($p);
+    $algorithm->setPVector($pVector);
     $algorithm->setXVector([]);
-    $algorithm->setNVector($n);
+    $algorithm->setNVector($nVector);
 
     return $algorithm->obtainCompleteGraphsWithVertexOrderingForVertexWithMinimumDegree($vertex, $minimumDegree);
 }

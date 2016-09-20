@@ -11,24 +11,24 @@ namespace Skilla\MaximalCliques\lib;
 class BronKerboschAlgorithms
 {
     /**
-     * @var array $r
+     * @var array $rVector
      */
-    private $r;
+    private $rVector;
 
     /**
-     * @var array $p
+     * @var array $pVector
      */
-    private $p;
+    private $pVector;
 
     /**
-     * @var array $x
+     * @var array $xVector
      */
-    private $x;
+    private $xVector;
 
     /**
-     * @var array $n
+     * @var array $nVector
      */
-    private $n;
+    private $nVector;
 
     /**
      * @var integer $selectedVertex
@@ -78,7 +78,7 @@ class BronKerboschAlgorithms
      */
     public function setRVector($rawData)
     {
-        $this->r = $this->dataTransformer->obtainRVector($rawData);
+        $this->rVector = $this->dataTransformer->obtainRVector($rawData);
     }
 
     /**
@@ -86,7 +86,7 @@ class BronKerboschAlgorithms
      */
     public function setPVector($rawData)
     {
-        $this->p = $this->dataTransformer->obtainPVector($rawData);
+        $this->pVector = $this->dataTransformer->obtainPVector($rawData);
     }
 
     /**
@@ -94,7 +94,7 @@ class BronKerboschAlgorithms
      */
     public function setXVector($rawData)
     {
-        $this->x = $this->dataTransformer->obtainXVector($rawData);
+        $this->xVector = $this->dataTransformer->obtainXVector($rawData);
     }
 
     /**
@@ -102,7 +102,7 @@ class BronKerboschAlgorithms
      */
     public function setNVector($rawData)
     {
-        $this->n = $this->dataTransformer->obtainNVector($rawData);
+        $this->nVector = $this->dataTransformer->obtainNVector($rawData);
         $this->filterWeights = null;
     }
 
@@ -115,7 +115,7 @@ class BronKerboschAlgorithms
         $this->selectedVertex = null;
         $this->selectedDegree = null;
         $this->filterInputData();
-        $this->extractCompleteGraphsWithoutPivoting($this->r, $this->p, $this->x);
+        $this->extractCompleteGraphsWithoutPivoting($this->rVector, $this->pVector, $this->xVector);
         return $this->completeGraphs;
     }
 
@@ -128,7 +128,7 @@ class BronKerboschAlgorithms
         $this->selectedVertex = null;
         $this->selectedDegree = null;
         $this->filterInputData();
-        $this->extractCompleteGraphsWithPivoting($this->r, $this->p, $this->x);
+        $this->extractCompleteGraphsWithPivoting($this->rVector, $this->pVector, $this->xVector);
         return $this->completeGraphs;
     }
 
@@ -141,7 +141,7 @@ class BronKerboschAlgorithms
         $this->selectedVertex = null;
         $this->selectedDegree = null;
         $this->filterInputData();
-        $this->extractCompleteGraphsWithVertexOrdering($this->r, $this->p, $this->x);
+        $this->extractCompleteGraphsWithVertexOrdering($this->rVector, $this->pVector, $this->xVector);
         return $this->completeGraphs;
     }
 
@@ -155,7 +155,7 @@ class BronKerboschAlgorithms
         $this->selectedVertex = $vertex;
         $this->selectedDegree = null;
         $this->filterInputData();
-        $this->extractCompleteGraphsWithVertexOrderingOptimized($this->r, $this->p, $this->x);
+        $this->extractCompleteGraphsWithVertexOrdering($this->rVector, $this->pVector, $this->xVector);
         return $this->completeGraphs;
     }
 
@@ -169,7 +169,7 @@ class BronKerboschAlgorithms
         $this->selectedVertex = null;
         $this->selectedDegree = $minimumDegree;
         $this->filterInputData();
-        $this->extractCompleteGraphsWithVertexOrderingOptimized($this->r, $this->p, $this->x);
+        $this->extractCompleteGraphsWithVertexOrdering($this->rVector, $this->pVector, $this->xVector);
         return $this->completeGraphs;
     }
 
@@ -184,7 +184,7 @@ class BronKerboschAlgorithms
         $this->selectedVertex = $vertex;
         $this->selectedDegree = $minimumDegree;
         $this->filterInputData();
-        $this->extractCompleteGraphsWithVertexOrderingOptimized($this->r, $this->p, $this->x);
+        $this->extractCompleteGraphsWithVertexOrdering($this->rVector, $this->pVector, $this->xVector);
         return $this->completeGraphs;
     }
 
@@ -193,16 +193,17 @@ class BronKerboschAlgorithms
      */
     public function retrieveMaximalClique()
     {
+        $this->sizeCompare(null, null);
         usort($this->completeGraphs, array($this, 'sizeCompare'));
         return $this->completeGraphs[0];
     }
 
-    private function sizeCompare($a, $b)
+    private function sizeCompare($first, $second)
     {
-        if (count($a) == count($b)) {
+        if (count($first) == count($second)) {
             return 0;
         }
-        return (count($a) > count($b)) ? -1 : 1;
+        return (count($first) > count($second)) ? -1 : 1;
     }
 
     private function filterInputData()
@@ -217,11 +218,15 @@ class BronKerboschAlgorithms
     private function generateFilteredN()
     {
         if (is_null($this->selectedVertex)) {
-            $this->filteredN = &$this->n;
+            $this->filteredN = &$this->nVector;
         } else {
-            $n = array_merge([$this->selectedVertex], $this->extractRelatedVertexFromN([$this->selectedVertex]));
-            foreach ($this->n as $edge) {
-                if (in_array($edge[0], $n) && in_array($edge[1], $n)) {
+            $this->filteredN = [];
+            $nVector = array_merge(
+                [$this->selectedVertex],
+                $this->extractRelatedVertexFromN([$this->selectedVertex])
+            );
+            foreach ($this->nVector as $edge) {
+                if (in_array($edge[0], $nVector) && in_array($edge[1], $nVector)) {
                     $this->filteredN[] = $edge;
                 }
             }
@@ -231,7 +236,7 @@ class BronKerboschAlgorithms
     private function extractRelatedVertexFromN(array $needle)
     {
         $related = [];
-        foreach ($this->n as $edge) {
+        foreach ($this->nVector as $edge) {
             if (in_array($edge[0], $needle)) {
                 $related[$edge[1]] = $edge[1];
             } else {
@@ -305,7 +310,7 @@ class BronKerboschAlgorithms
                 array_intersect($pVector, $relatedVertex),
                 array_intersect($xVector, $relatedVertex)
             );
-            unset($pVector[array_search($v, $pVector)]);
+            $pVector = array_diff($pVector, [$v]);
             $xVector = array_values(array_merge($xVector, [$v]));
         }
     }
@@ -324,9 +329,6 @@ class BronKerboschAlgorithms
         }
         $pivotRelated = $this->extractRelatedVertex($pivot);
         $reducedP = array_diff($pVector, $pivotRelated);
-//        foreach ($pivotRelated as $related) {
-//            unset($reducedP[array_search($related, $reducedP)]);
-//        }
         foreach ($reducedP as $v) {
             $relatedVertex = $this->extractRelatedVertex($v);
             $this->extractCompleteGraphsWithPivoting(
@@ -334,7 +336,7 @@ class BronKerboschAlgorithms
                 array_intersect($pVector, $relatedVertex),
                 array_intersect($xVector, $relatedVertex)
             );
-            unset($pVector[array_search($v, $pVector)]);
+            $pVector = array_diff($pVector, [$v]);
             $xVector = array_values(array_merge($xVector, [$v]));
         }
     }
@@ -359,22 +361,7 @@ class BronKerboschAlgorithms
                 array_intersect($pVector, $relatedVertex),
                 array_intersect($xVector, $relatedVertex)
             );
-            unset($pVector[array_search($v, $pVector)]);
-            $xVector = array_values(array_merge($xVector, [$v]));
-        }
-    }
-
-    private function extractCompleteGraphsWithVertexOrderingOptimized($rVector, $pVector, $xVector)
-    {
-        $pVector = array_intersect(array_keys($this->filterWeights), $pVector);
-        foreach ($pVector as $v) {
-            $relatedVertex = $this->extractRelatedVertex($v);
-            $this->extractCompleteGraphsWithPivoting(
-                array_merge($rVector, [$v]),
-                array_intersect($pVector, $relatedVertex),
-                array_intersect($xVector, $relatedVertex)
-            );
-            unset($pVector[array_search($v, $pVector)]);
+            $pVector = array_diff($pVector, [$v]);
             $xVector = array_values(array_merge($xVector, [$v]));
         }
     }

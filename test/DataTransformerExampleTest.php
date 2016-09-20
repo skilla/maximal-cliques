@@ -25,24 +25,24 @@ class DataTransformerExampleTest extends \PHPUnit_Framework_TestCase
     {
         $data = [23=>'Philip', 56=>'Martha', 17=>'Louis', 107=>'John', 47=>'Agnes', 12=>'James'];
         $dataTransformer = new DataTransformerExample();
-        $r = $dataTransformer->obtainRVector($data);
-        $this->assertEquals([23, 56, 17, 107, 47, 12], $r);
+        $rVector = $dataTransformer->obtainRVector($data);
+        $this->assertEquals([23, 56, 17, 107, 47, 12], $rVector);
     }
 
     public function testObtainPVector()
     {
         $data = [23=>'Philip', 56=>'Martha', 17=>'Louis', 107=>'John', 47=>'Agnes', 12=>'James'];
         $dataTransformer = new DataTransformerExample();
-        $p = $dataTransformer->obtainPVector($data);
-        $this->assertEquals([23, 56, 17, 107, 47, 12], $p);
+        $pVector = $dataTransformer->obtainPVector($data);
+        $this->assertEquals([23, 56, 17, 107, 47, 12], $pVector);
     }
 
     public function testObtainXVector()
     {
         $data = [23=>'Philip', 56=>'Martha', 17=>'Louis', 107=>'John', 47=>'Agnes', 12=>'James'];
         $dataTransformer = new DataTransformerExample();
-        $x = $dataTransformer->obtainXVector($data);
-        $this->assertEquals([23, 56, 17, 107, 47, 12], $x);
+        $xVector = $dataTransformer->obtainXVector($data);
+        $this->assertEquals([23, 56, 17, 107, 47, 12], $xVector);
     }
 
     public function testObtainNVector()
@@ -56,8 +56,8 @@ class DataTransformerExampleTest extends \PHPUnit_Framework_TestCase
             12=>[23=>0, 56=>0, 17=>0, 107=>1, 47=>0, 12=>0]
         ];
         $dataTransformer = new DataTransformerExample();
-        $n = $dataTransformer->obtainNVector($data);
+        $nVector = $dataTransformer->obtainNVector($data);
 
-        $this->assertEquals([[23,56],[23,47],[17,56],[47,56],[17,107],[47,107],[12,107]], $n);
+        $this->assertEquals([[23,56],[23,47],[17,56],[47,56],[17,107],[47,107],[12,107]], $nVector);
     }
 }

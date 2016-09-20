@@ -10,35 +10,35 @@ namespace Skilla\MaximalCliques\lib;
 
 class DataTransformerExample implements DataTransformerInterface
 {
-    function obtainRVector(array $R)
+    function obtainRVector(array $rVector)
     {
-        return array_keys($R);
+        return array_keys($rVector);
     }
 
-    function obtainPVector(array $P)
+    function obtainPVector(array $pVector)
     {
-        return array_keys($P);
+        return array_keys($pVector);
     }
 
-    function obtainXVector(array $X)
+    function obtainXVector(array $xVector)
     {
-        return array_keys($X);
+        return array_keys($xVector);
     }
 
-    function obtainNVector(array $N)
+    function obtainNVector(array $nVector)
     {
-        $nVector = [];
-        foreach ($N as $x => $values) {
+        $cleanNVector = [];
+        foreach ($nVector as $x => $values) {
             foreach ($values as $y => $value) {
                 if ($value==1) {
                     if ($x>$y) {
-                        $nVector["$y#$x"] = [$y, $x];
+                        $cleanNVector["$y#$x"] = [$y, $x];
                     } else {
-                        $nVector["$x#$y"] = [$x, $y];
+                        $cleanNVector["$x#$y"] = [$x, $y];
                     }
                 }
             }
         }
-        return array_values($nVector);
+        return array_values($cleanNVector);
     }
 }

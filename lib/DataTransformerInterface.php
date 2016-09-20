@@ -14,28 +14,28 @@ interface DataTransformerInterface
      * Transforms input data in a vector of keys, ex:
      *   input -> [23=>'Philip', 56=>'Martha', 17=>'Louis', 107=>'John', 47=>'Agnes', 12=>'James']
      *   output -> [23, 56, 17, 107, 47, 12]
-     * @param array $R
+     * @param array $rVector
      * @return integer[]
      */
-    function obtainRVector(array $R);
+    function obtainRVector(array $rVector);
 
     /**
      * Transforms input data in a vector of keys, ex:
      *   input -> [23=>'Philip', 56=>'Martha', 17=>'Louis', 107=>'John', 47=>'Agnes', 12=>'James']
      *   output -> [23, 56, 17, 107, 47, 12]
-     * @param array $P
+     * @param array $pVector
      * @return integer[]
      */
-    function obtainPVector(array $P);
+    function obtainPVector(array $pVector);
 
     /**
      * Transforms input data in a vector of keys, ex:
      *   input -> [23=>'Philip', 56=>'Martha', 17=>'Louis', 107=>'John', 47=>'Agnes', 12=>'James']
      *   output -> [23, 56, 17, 107, 47, 12]
-     * @param array $X
+     * @param array $xVector
      * @return integer[]
      */
-    function obtainXVector(array $X);
+    function obtainXVector(array $xVector);
 
     /**
      * Transforms input data in a vector of keys, ex:
@@ -46,8 +46,8 @@ interface DataTransformerInterface
      *             47=>[23=>1, 56=>1, 17=>0, 107=>1, 47=>0, 12=>0],
      *             12=>[23=>0, 56=>0, 17=>0, 107=>1, 47=>0, 12=>0]]
      *   output -> [[1,2],[1,5],[2,3],[2,5],[3,4],[4,5],[4,6]]
-     * @param array $N
+     * @param array $nVector
      * @return integer[]
      */
-    function obtainNVector(array $N);
+    function obtainNVector(array $nVector);
 }

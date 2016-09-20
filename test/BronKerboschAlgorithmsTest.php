@@ -38,12 +38,12 @@ class BronKerboschAlgorithmsTest extends \PHPUnit_Framework_TestCase
         $algorithm->setXVector([]);
         $algorithm->setNVector(
             [
-                23=>[23=>0, 56=>1, 17=>0, 107=>0, 47=>1, 12=>0],
-                56=>[23=>1, 56=>0, 17=>1, 107=>0, 47=>1, 12=>0],
-                17=>[23=>0, 56=>1, 17=>0, 107=>1, 47=>0, 12=>0],
+                 23=>[23=>0, 56=>1, 17=>0, 107=>0, 47=>1, 12=>0],
+                 56=>[23=>1, 56=>0, 17=>1, 107=>0, 47=>1, 12=>0],
+                 17=>[23=>0, 56=>1, 17=>0, 107=>1, 47=>0, 12=>0],
                 107=>[23=>0, 56=>0, 17=>1, 107=>0, 47=>1, 12=>1],
-                47=>[23=>1, 56=>1, 17=>0, 107=>1, 47=>0, 12=>0],
-                12=>[23=>0, 56=>0, 17=>0, 107=>1, 47=>0, 12=>0]
+                 47=>[23=>1, 56=>1, 17=>0, 107=>1, 47=>0, 12=>0],
+                 12=>[23=>0, 56=>0, 17=>0, 107=>1, 47=>0, 12=>0]
             ]
         );
         $this->assertEquals(
@@ -240,7 +240,7 @@ class BronKerboschAlgorithmsTest extends \PHPUnit_Framework_TestCase
             $algorithm->obtainCompleteGraphsWithVertexOrderingForVertexWithMinimumDegree(12, 2)
         );
         $this->assertEquals(
-            [[17,107],[12,107],[47,107]],
+            [[47,107],[17,107],[12,107]],
             $algorithm->obtainCompleteGraphsWithVertexOrderingForVertexWithMinimumDegree(107, 1)
         );
     }
