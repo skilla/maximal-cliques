@@ -103,7 +103,7 @@ class BronKerboschAlgorithms
     public function setNVector($rawData)
     {
         $this->nVector = $this->dataTransformer->obtainNVector($rawData);
-        $this->filterWeights = null;
+        $this->filterWeights = array();
     }
 
     /**

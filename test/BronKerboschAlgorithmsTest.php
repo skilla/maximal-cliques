@@ -249,18 +249,18 @@ class BronKerboschAlgorithmsTest extends \PHPUnit_Framework_TestCase
     {
         $algorithm = new BronKerboschAlgorithms();
         $algorithm->setDataTransformer(new DataTransformerExample());
-        $algorithm->setRVector([]);
+        $algorithm->setRVector(array());
         $algorithm->setPVector(
-            [
+            array(
                 23=>'Philip',
                 56=>'Martha',
                 17=>'Louis',
                 107=>'John',
                 47=>'Agnes',
                 12=>'James'
-            ]
+            )
         );
-        $algorithm->setXVector([]);
+        $algorithm->setXVector(array());
         $algorithm->setNVector(
             array(
                  23=>array(23=>0, 56=>0, 17=>0, 107=>0, 47=>0, 12=>0),
@@ -283,4 +283,22 @@ class BronKerboschAlgorithmsTest extends \PHPUnit_Framework_TestCase
             array(),
             $algorithm->obtainCompleteGraphsWithVertexOrdering()
         );
-    }}
+
+        $algorithm->setRVector(array());
+        $algorithm->setPVector(
+            array(
+                23=>'Philip',
+            )
+        );
+        $algorithm->setXVector(array());
+        $algorithm->setNVector(
+            array(
+                23 => array(23 => 0)
+            )
+        );
+        $this->assertEquals(
+            array(),
+            $algorithm->obtainCompleteGraphsWithVertexOrdering()
+        );
+    }
+}
