@@ -240,7 +240,7 @@ class BronKerboschAlgorithmsTest extends \PHPUnit_Framework_TestCase
             $algorithm->obtainCompleteGraphsWithVertexOrderingForVertexWithMinimumDegree(12, 2)
         );
         $this->assertEquals(
-            array(array(17,107),array(12,107),array(47,107)),
+            array(array(47,107),array(17,107),array(12,107)),
             $algorithm->obtainCompleteGraphsWithVertexOrderingForVertexWithMinimumDegree(107, 1)
         );
     }
@@ -284,6 +284,8 @@ class BronKerboschAlgorithmsTest extends \PHPUnit_Framework_TestCase
             $algorithm->obtainCompleteGraphsWithVertexOrdering()
         );
 
+        $algorithm = new BronKerboschAlgorithms();
+        $algorithm->setDataTransformer(new DataTransformerExample());
         $algorithm->setRVector(array());
         $algorithm->setPVector(
             array(
@@ -298,7 +300,7 @@ class BronKerboschAlgorithmsTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals(
             array(),
-            $algorithm->obtainCompleteGraphsWithVertexOrdering()
+            $algorithm->obtainCompleteGraphsWithVertexOrderingForVertex(23)
         );
     }
 }

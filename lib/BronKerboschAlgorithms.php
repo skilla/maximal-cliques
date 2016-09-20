@@ -220,6 +220,7 @@ class BronKerboschAlgorithms
         if (is_null($this->selectedVertex)) {
             $this->filteredN = &$this->nVector;
         } else {
+            $this->filteredN = array();
             $nVector = array_merge(
                 array($this->selectedVertex),
                 $this->extractRelatedVertexFromN(array($this->selectedVertex))
