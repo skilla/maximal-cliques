@@ -43,7 +43,12 @@ This will be composed of five maximal cliques:
 
 ## Installation
 
-composer require "skilla/maximal-cliques"
+for php 5.3 or lower use:  
+composer require "skilla/maximal-cliques:0.1.*"  
+
+for php 5.4 or higher  
+composer require "skilla/maximal-cliques:dev-master"  
+
 
 ## How to use
 The source code includes "DataTransformerExample" class that implements the "DataTransformerInterface" interface. The purpose of this is to serve as a test and example.  
