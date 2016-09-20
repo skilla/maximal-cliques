@@ -284,55 +284,58 @@ class BronKerboschAlgorithms
 
     private function choosePivot(array $vertex)
     {
-        foreach ($this->filterWeights as $key => $value) {
+        foreach (array_keys($this->filterWeights) as $key) {
             if (in_array($key, $vertex)) {
                 return $key;
             }
         }
-        throw new \Exception('No matches between the weight vector and vertex provided');
+        return null;
     }
 
-    private function extractCompleteGraphsWithoutPivoting($r, $p, $x)
+    private function extractCompleteGraphsWithoutPivoting($rVector, $pVector, $xVector)
     {
-        if (empty($p) && empty($x)) {
-            $this->completeGraphs[] = $r;
+        if (empty($pVector) && empty($xVector)) {
+            $this->completeGraphs[] = $rVector;
             return;
         }
-       foreach ($p as $v) {
-           $relatedVertex = $this->extractRelatedVertex($v);
-           $this->extractCompleteGraphsWithoutPivoting(
-               array_merge($r, [$v]),
-               array_intersect($p, $relatedVertex),
-               array_intersect($x, $relatedVertex)
+        foreach ($pVector as $v) {
+            $relatedVertex = $this->extractRelatedVertex($v);
+            $this->extractCompleteGraphsWithoutPivoting(
+                array_merge($rVector, [$v]),
+                array_intersect($pVector, $relatedVertex),
+                array_intersect($xVector, $relatedVertex)
             );
-           unset($p[array_search($v, $p)]);
-            $x = array_values(array_merge($x, [$v]));
-       }
+            unset($pVector[array_search($v, $pVector)]);
+            $xVector = array_values(array_merge($xVector, [$v]));
+        }
     }
 
-    private function extractCompleteGraphsWithPivoting($r, $p, $x)
+    private function extractCompleteGraphsWithPivoting($rVector, $pVector, $xVector)
     {
-        if (empty($p) && empty($x)) {
-            if ($this->containsVertex($r) && $this->isDegreeCompliant($r)) {
-                $this->completeGraphs[] = $r;
+        if (empty($pVector) && empty($xVector)) {
+            if ($this->containsVertex($rVector) && $this->isDegreeCompliant($rVector)) {
+                $this->completeGraphs[] = $rVector;
             }
             return;
         }
-        $pivot = $this->choosePivot(array_merge($p, $x));
-        $pivotRelated = $this->extractRelatedVertex($pivot);
-        $reducedP = $p;
-        foreach ($pivotRelated as $related) {
-            unset($reducedP[array_search($related, $reducedP)]);
+        $pivot = $this->choosePivot(array_merge($pVector, $xVector));
+        if (is_null($pivot)) {
+            return;
         }
+        $pivotRelated = $this->extractRelatedVertex($pivot);
+        $reducedP = array_diff($pVector, $pivotRelated);
+//        foreach ($pivotRelated as $related) {
+//            unset($reducedP[array_search($related, $reducedP)]);
+//        }
         foreach ($reducedP as $v) {
             $relatedVertex = $this->extractRelatedVertex($v);
             $this->extractCompleteGraphsWithPivoting(
-                array_merge($r, [$v]),
-                array_intersect($p, $relatedVertex),
-                array_intersect($x, $relatedVertex)
+                array_merge($rVector, [$v]),
+                array_intersect($pVector, $relatedVertex),
+                array_intersect($xVector, $relatedVertex)
             );
-            unset($p[array_search($v, $p)]);
-            $x = array_values(array_merge($x, [$v]));
+            unset($pVector[array_search($v, $pVector)]);
+            $xVector = array_values(array_merge($xVector, [$v]));
         }
     }
 
@@ -346,33 +349,33 @@ class BronKerboschAlgorithms
         return is_null($this->selectedDegree) || count($graph) >= $this->selectedDegree+1;
     }
 
-    private function extractCompleteGraphsWithVertexOrdering($r, $p, $x)
+    private function extractCompleteGraphsWithVertexOrdering($rVector, $pVector, $xVector)
     {
-        $p = array_intersect(array_keys($this->filterWeights), $p);
-        foreach ($p as $v) {
+        $pVector = array_intersect(array_keys($this->filterWeights), $pVector);
+        foreach ($pVector as $v) {
             $relatedVertex = $this->extractRelatedVertex($v);
             $this->extractCompleteGraphsWithPivoting(
-                array_merge($r, [$v]),
-                array_intersect($p, $relatedVertex),
-                array_intersect($x, $relatedVertex)
+                array_merge($rVector, [$v]),
+                array_intersect($pVector, $relatedVertex),
+                array_intersect($xVector, $relatedVertex)
             );
-            unset($p[array_search($v, $p)]);
-            $x = array_values(array_merge($x, [$v]));
+            unset($pVector[array_search($v, $pVector)]);
+            $xVector = array_values(array_merge($xVector, [$v]));
         }
     }
 
-    private function extractCompleteGraphsWithVertexOrderingOptimized($r, $p, $x)
+    private function extractCompleteGraphsWithVertexOrderingOptimized($rVector, $pVector, $xVector)
     {
-        $p = array_intersect(array_keys($this->filterWeights), $p);
-        foreach ($p as $v) {
+        $pVector = array_intersect(array_keys($this->filterWeights), $pVector);
+        foreach ($pVector as $v) {
             $relatedVertex = $this->extractRelatedVertex($v);
             $this->extractCompleteGraphsWithPivoting(
-                array_merge($r, [$v]),
-                array_intersect($p, $relatedVertex),
-                array_intersect($x, $relatedVertex)
+                array_merge($rVector, [$v]),
+                array_intersect($pVector, $relatedVertex),
+                array_intersect($xVector, $relatedVertex)
             );
-            unset($p[array_search($v, $p)]);
-            $x = array_values(array_merge($x, [$v]));
+            unset($pVector[array_search($v, $pVector)]);
+            $xVector = array_values(array_merge($xVector, [$v]));
         }
     }
 }
