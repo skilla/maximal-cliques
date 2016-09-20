@@ -27,14 +27,14 @@ class DataTransformerExample implements DataTransformerInterface
 
     function obtainNVector(array $nVector)
     {
-        $cleanNVector = [];
+        $cleanNVector = array();
         foreach ($nVector as $x => $values) {
             foreach ($values as $y => $value) {
                 if ($value==1) {
                     if ($x>$y) {
-                        $cleanNVector["$y#$x"] = [$y, $x];
+                        $cleanNVector["$y#$x"] = array($y, $x);
                     } else {
-                        $cleanNVector["$x#$y"] = [$x, $y];
+                        $cleanNVector["$x#$y"] = array($x, $y);
                     }
                 }
             }
