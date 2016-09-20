@@ -195,7 +195,11 @@ class BronKerboschAlgorithms
     {
         $this->sizeCompare(null, null);
         usort($this->completeGraphs, array($this, 'sizeCompare'));
-        return $this->completeGraphs[0];
+        if (isset($this->completeGraphs[0])) {
+            return $this->completeGraphs[0];
+        } else {
+            return array();
+        }
     }
 
     private function sizeCompare($first, $second)
