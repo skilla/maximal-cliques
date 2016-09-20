@@ -122,39 +122,6 @@ class BronKerboschAlgorithmsTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @expectedException \Exception
-     */
-    public function testObtainCompleteGraphsWithPivotingThrowsException()
-    {
-        $algorithm = new BronKerboschAlgorithms();
-        $algorithm->setDataTransformer(new DataTransformerExample());
-
-        $algorithm->setRVector(array());
-        $algorithm->setPVector(
-            array(
-                23=>'Philip',
-                56=>'Martha',
-                17=>'Louis',
-                107=>'John',
-                47=>'Agnes',
-                12=>'James'
-            )
-        );
-        $algorithm->setXVector(array());
-        $algorithm->setNVector(
-            array(
-                 23=>array(23=>0, 56=>0, 17=>0, 107=>0, 47=>0, 12=>0),
-                 56=>array(23=>0, 56=>0, 17=>0, 107=>0, 47=>0, 12=>0),
-                 17=>array(23=>0, 56=>0, 17=>0, 107=>0, 47=>0, 12=>0),
-                107=>array(23=>0, 56=>0, 17=>0, 107=>0, 47=>0, 12=>0),
-                 47=>array(23=>0, 56=>0, 17=>0, 107=>0, 47=>0, 12=>0),
-                 12=>array(23=>0, 56=>0, 17=>0, 107=>0, 47=>0, 12=>0)
-    )
-        );
-        $algorithm->obtainCompleteGraphsWithPivoting();
-    }
-
     public function testObtainCompleteGraphsWithVertexOrderingForVertex()
     {
         $algorithm = new BronKerboschAlgorithms();
@@ -277,4 +244,43 @@ class BronKerboschAlgorithmsTest extends \PHPUnit_Framework_TestCase
             $algorithm->obtainCompleteGraphsWithVertexOrderingForVertexWithMinimumDegree(107, 1)
         );
     }
-}
+
+    public function testVectorNEmpty()
+    {
+        $algorithm = new BronKerboschAlgorithms();
+        $algorithm->setDataTransformer(new DataTransformerExample());
+        $algorithm->setRVector([]);
+        $algorithm->setPVector(
+            [
+                23=>'Philip',
+                56=>'Martha',
+                17=>'Louis',
+                107=>'John',
+                47=>'Agnes',
+                12=>'James'
+            ]
+        );
+        $algorithm->setXVector([]);
+        $algorithm->setNVector(
+            array(
+                 23=>array(23=>0, 56=>0, 17=>0, 107=>0, 47=>0, 12=>0),
+                 56=>array(23=>0, 56=>0, 17=>0, 107=>0, 47=>0, 12=>0),
+                 17=>array(23=>0, 56=>0, 17=>0, 107=>0, 47=>0, 12=>0),
+                107=>array(23=>0, 56=>0, 17=>0, 107=>0, 47=>0, 12=>0),
+                 47=>array(23=>0, 56=>0, 17=>0, 107=>0, 47=>0, 12=>0),
+                 12=>array(23=>0, 56=>0, 17=>0, 107=>0, 47=>0, 12=>0)
+            )
+        );
+        $this->assertEquals(
+            array(array(23), array(56), array(17), array(107), array(47), array(12)),
+            $algorithm->obtainCompleteGraphsWithoutPivoting()
+        );
+        $this->assertEquals(
+            array(),
+            $algorithm->obtainCompleteGraphsWithPivoting()
+        );
+        $this->assertEquals(
+            array(),
+            $algorithm->obtainCompleteGraphsWithVertexOrdering()
+        );
+    }}

@@ -11,24 +11,24 @@ namespace Skilla\MaximalCliques\lib;
 class BronKerboschAlgorithms
 {
     /**
-     * @var array $r
+     * @var array $rVector
      */
-    private $r;
+    private $rVector;
 
     /**
-     * @var array $p
+     * @var array $pVector
      */
-    private $p;
+    private $pVector;
 
     /**
-     * @var array $x
+     * @var array $xVector
      */
-    private $x;
+    private $xVector;
 
     /**
-     * @var array $n
+     * @var array $nVector
      */
-    private $n;
+    private $nVector;
 
     /**
      * @var integer $selectedVertex
@@ -78,7 +78,7 @@ class BronKerboschAlgorithms
      */
     public function setRVector($rawData)
     {
-        $this->r = $this->dataTransformer->obtainRVector($rawData);
+        $this->rVector = $this->dataTransformer->obtainRVector($rawData);
     }
 
     /**
@@ -86,7 +86,7 @@ class BronKerboschAlgorithms
      */
     public function setPVector($rawData)
     {
-        $this->p = $this->dataTransformer->obtainPVector($rawData);
+        $this->pVector = $this->dataTransformer->obtainPVector($rawData);
     }
 
     /**
@@ -94,7 +94,7 @@ class BronKerboschAlgorithms
      */
     public function setXVector($rawData)
     {
-        $this->x = $this->dataTransformer->obtainXVector($rawData);
+        $this->xVector = $this->dataTransformer->obtainXVector($rawData);
     }
 
     /**
@@ -102,7 +102,7 @@ class BronKerboschAlgorithms
      */
     public function setNVector($rawData)
     {
-        $this->n = $this->dataTransformer->obtainNVector($rawData);
+        $this->nVector = $this->dataTransformer->obtainNVector($rawData);
         $this->filterWeights = null;
     }
 
@@ -115,7 +115,7 @@ class BronKerboschAlgorithms
         $this->selectedVertex = null;
         $this->selectedDegree = null;
         $this->filterInputData();
-        $this->extractCompleteGraphsWithoutPivoting($this->r, $this->p, $this->x);
+        $this->extractCompleteGraphsWithoutPivoting($this->rVector, $this->pVector, $this->xVector);
         return $this->completeGraphs;
     }
 
@@ -128,7 +128,7 @@ class BronKerboschAlgorithms
         $this->selectedVertex = null;
         $this->selectedDegree = null;
         $this->filterInputData();
-        $this->extractCompleteGraphsWithPivoting($this->r, $this->p, $this->x);
+        $this->extractCompleteGraphsWithPivoting($this->rVector, $this->pVector, $this->xVector);
         return $this->completeGraphs;
     }
 
@@ -141,7 +141,7 @@ class BronKerboschAlgorithms
         $this->selectedVertex = null;
         $this->selectedDegree = null;
         $this->filterInputData();
-        $this->extractCompleteGraphsWithVertexOrdering($this->r, $this->p, $this->x);
+        $this->extractCompleteGraphsWithVertexOrdering($this->rVector, $this->pVector, $this->xVector);
         return $this->completeGraphs;
     }
 
@@ -155,7 +155,7 @@ class BronKerboschAlgorithms
         $this->selectedVertex = $vertex;
         $this->selectedDegree = null;
         $this->filterInputData();
-        $this->extractCompleteGraphsWithVertexOrderingOptimized($this->r, $this->p, $this->x);
+        $this->extractCompleteGraphsWithVertexOrderingOptimized($this->rVector, $this->pVector, $this->xVector);
         return $this->completeGraphs;
     }
 
@@ -169,7 +169,7 @@ class BronKerboschAlgorithms
         $this->selectedVertex = null;
         $this->selectedDegree = $minimumDegree;
         $this->filterInputData();
-        $this->extractCompleteGraphsWithVertexOrderingOptimized($this->r, $this->p, $this->x);
+        $this->extractCompleteGraphsWithVertexOrderingOptimized($this->rVector, $this->pVector, $this->xVector);
         return $this->completeGraphs;
     }
 
@@ -184,7 +184,7 @@ class BronKerboschAlgorithms
         $this->selectedVertex = $vertex;
         $this->selectedDegree = $minimumDegree;
         $this->filterInputData();
-        $this->extractCompleteGraphsWithVertexOrderingOptimized($this->r, $this->p, $this->x);
+        $this->extractCompleteGraphsWithVertexOrderingOptimized($this->rVector, $this->pVector, $this->xVector);
         return $this->completeGraphs;
     }
 
@@ -193,16 +193,17 @@ class BronKerboschAlgorithms
      */
     public function retrieveMaximalClique()
     {
+        $this->sizeCompare(null, null);
         usort($this->completeGraphs, array($this, 'sizeCompare'));
         return $this->completeGraphs[0];
     }
 
-    private function sizeCompare($a, $b)
+    private function sizeCompare($first, $second)
     {
-        if (count($a) == count($b)) {
+        if (count($first) == count($second)) {
             return 0;
         }
-        return (count($a) > count($b)) ? -1 : 1;
+        return (count($first) > count($second)) ? -1 : 1;
     }
 
     private function filterInputData()
@@ -217,14 +218,14 @@ class BronKerboschAlgorithms
     private function generateFilteredN()
     {
         if (is_null($this->selectedVertex)) {
-            $this->filteredN = &$this->n;
+            $this->filteredN = &$this->nVector;
         } else {
-            $n = array_merge(
+            $nVector = array_merge(
                 array($this->selectedVertex),
                 $this->extractRelatedVertexFromN(array($this->selectedVertex))
             );
-            foreach ($this->n as $edge) {
-                if (in_array($edge[0], $n) && in_array($edge[1], $n)) {
+            foreach ($this->nVector as $edge) {
+                if (in_array($edge[0], $nVector) && in_array($edge[1], $nVector)) {
                     $this->filteredN[] = $edge;
                 }
             }
@@ -234,7 +235,7 @@ class BronKerboschAlgorithms
     private function extractRelatedVertexFromN(array $needle)
     {
         $related = array();
-        foreach ($this->n as $edge) {
+        foreach ($this->nVector as $edge) {
             if (in_array($edge[0], $needle)) {
                 $related[$edge[1]] = $edge[1];
             } else {
@@ -263,7 +264,7 @@ class BronKerboschAlgorithms
     {
         $weights = array();
         foreach ($this->filteredN as $related) {
-            if ( $this->checkVertex($related[0]) || $this->checkVertex($related[1])) {
+            if ($this->checkVertex($related[0]) || $this->checkVertex($related[1])) {
                 $weights[$related[0]] = ((int)@$weights[$related[0]]) + 1;
                 $weights[$related[1]] = ((int)@$weights[$related[1]]) + 1;
             }
@@ -299,55 +300,58 @@ class BronKerboschAlgorithms
 
     private function choosePivot(array $vertex)
     {
-        foreach ($this->filterWeights as $key => $value) {
+        foreach (array_keys($this->filterWeights) as $key) {
             if (in_array($key, $vertex)) {
                 return $key;
             }
         }
-        throw new \Exception('No matches between the weight vector and vertex provided');
+        return null;
     }
 
-    private function extractCompleteGraphsWithoutPivoting($r, $p, $x)
+    private function extractCompleteGraphsWithoutPivoting($rVector, $pVector, $xVector)
     {
-        if (empty($p) && empty($x)) {
-            $this->completeGraphs[] = $r;
+        if (empty($pVector) && empty($xVector)) {
+            $this->completeGraphs[] = $rVector;
             return;
         }
-       foreach ($p as $v) {
-           $relatedVertex = $this->extractRelatedVertex($v);
-           $this->extractCompleteGraphsWithoutPivoting(
-               array_merge($r, array($v)),
-               array_intersect($p, $relatedVertex),
-               array_intersect($x, $relatedVertex)
+        foreach ($pVector as $node) {
+            $relatedVertex = $this->extractRelatedVertex($node);
+            $this->extractCompleteGraphsWithoutPivoting(
+                array_merge($rVector, array($node)),
+                array_intersect($pVector, $relatedVertex),
+                array_intersect($xVector, $relatedVertex)
             );
-           unset($p[array_search($v, $p)]);
-            $x = array_values(array_merge($x, array($v)));
-       }
+            unset($pVector[array_search($node, $pVector)]);
+            $xVector = array_values(array_merge($xVector, array($node)));
+        }
     }
 
-    private function extractCompleteGraphsWithPivoting($r, $p, $x)
+    private function extractCompleteGraphsWithPivoting($rVector, $pVector, $xVector)
     {
-        if (empty($p) && empty($x)) {
-            if ($this->containsVertex($r) && $this->isDegreeCompliant($r)) {
-                $this->completeGraphs[] = $r;
+        if (empty($pVector) && empty($xVector)) {
+            if ($this->containsVertex($rVector) && $this->isDegreeCompliant($rVector)) {
+                $this->completeGraphs[] = $rVector;
             }
             return;
         }
-        $pivot = $this->choosePivot(array_merge($p, $x));
+        $pivot = $this->choosePivot(array_merge($pVector, $xVector));
+        if (is_null($pivot)) {
+            return;
+        }
         $pivotRelated = $this->extractRelatedVertex($pivot);
-        $reducedP = $p;
+        $reducedP = $pVector;
         foreach ($pivotRelated as $related) {
             unset($reducedP[array_search($related, $reducedP)]);
         }
         foreach ($reducedP as $v) {
             $relatedVertex = $this->extractRelatedVertex($v);
             $this->extractCompleteGraphsWithPivoting(
-                array_merge($r, array($v)),
-                array_intersect($p, $relatedVertex),
-                array_intersect($x, $relatedVertex)
+                array_merge($rVector, array($v)),
+                array_intersect($pVector, $relatedVertex),
+                array_intersect($xVector, $relatedVertex)
             );
-            unset($p[array_search($v, $p)]);
-            $x = array_values(array_merge($x, array($v)));
+            unset($pVector[array_search($v, $pVector)]);
+            $xVector = array_values(array_merge($xVector, array($v)));
         }
     }
 
@@ -361,33 +365,33 @@ class BronKerboschAlgorithms
         return is_null($this->selectedDegree) || count($graph) >= $this->selectedDegree+1;
     }
 
-    private function extractCompleteGraphsWithVertexOrdering($r, $p, $x)
+    private function extractCompleteGraphsWithVertexOrdering($rVector, $pVector, $xVector)
     {
-        $p = array_intersect(array_keys($this->filterWeights), $p);
-        foreach ($p as $v) {
+        $pVector = array_intersect(array_keys($this->filterWeights), $pVector);
+        foreach ($pVector as $v) {
             $relatedVertex = $this->extractRelatedVertex($v);
             $this->extractCompleteGraphsWithPivoting(
-                array_merge($r, array($v)),
-                array_intersect($p, $relatedVertex),
-                array_intersect($x, $relatedVertex)
+                array_merge($rVector, array($v)),
+                array_intersect($pVector, $relatedVertex),
+                array_intersect($xVector, $relatedVertex)
             );
-            unset($p[array_search($v, $p)]);
-            $x = array_values(array_merge($x, array($v)));
+            unset($pVector[array_search($v, $pVector)]);
+            $xVector = array_values(array_merge($xVector, array($v)));
         }
     }
 
-    private function extractCompleteGraphsWithVertexOrderingOptimized($r, $p, $x)
+    private function extractCompleteGraphsWithVertexOrderingOptimized($rVector, $pVector, $xVector)
     {
-        $p = array_intersect(array_keys($this->filterWeights), $p);
-        foreach ($p as $v) {
+        $pVector = array_intersect(array_keys($this->filterWeights), $pVector);
+        foreach ($pVector as $v) {
             $relatedVertex = $this->extractRelatedVertex($v);
             $this->extractCompleteGraphsWithPivoting(
-                array_merge($r, array($v)),
-                array_intersect($p, $relatedVertex),
-                array_intersect($x, $relatedVertex)
+                array_merge($rVector, array($v)),
+                array_intersect($pVector, $relatedVertex),
+                array_intersect($xVector, $relatedVertex)
             );
-            unset($p[array_search($v, $p)]);
-            $x = array_values(array_merge($x, array($v)));
+            unset($pVector[array_search($v, $pVector)]);
+            $xVector = array_values(array_merge($xVector, array($v)));
         }
     }
 }
