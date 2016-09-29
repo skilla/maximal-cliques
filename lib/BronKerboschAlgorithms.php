@@ -201,7 +201,12 @@ class BronKerboschAlgorithms
     private function sizeCompare($first, $second)
     {
         if (count($first) == count($second)) {
-            return 0;
+            $sumFirst = is_array($first) ? array_sum($first) : (int)$first;
+            $sumSecond = is_array($second) ? array_sum($second) : (int)$second;
+            if ($sumFirst == $sumSecond) {
+                return 0;
+            }
+            return $sumFirst > $sumSecond ? -1 : 1;
         }
         return (count($first) > count($second)) ? -1 : 1;
     }

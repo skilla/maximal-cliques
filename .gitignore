@@ -38,6 +38,7 @@
 /app/phpunit.xml
 /phpunit.xml
 /coverage
+/.sonar
 
 # Build data
 /build/

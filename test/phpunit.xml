@@ -27,4 +27,9 @@
             </exclude>
         </whitelist>
     </filter>
+    <logging>
+        <log type="coverage-clover" target="../build/test-clover.xml" />
+        <log type="junit"           target="../build/test-junit.xml" logIncompleteSkipped="false"/>
+        <log type="coverage-html"   target="../coverage/" />
+    </logging>
 </phpunit>
