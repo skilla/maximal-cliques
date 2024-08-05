@@ -193,7 +193,9 @@ class BronKerboschAlgorithms
      */
     public function retrieveMaximalClique()
     {
-        $this->sizeCompare(null, null);
+        if ($this->completeGraphs === null) {
+            throw new Exception('Cannot retrieve maximal clique without running calucations first');
+        }
         usort($this->completeGraphs, array($this, 'sizeCompare'));
         return $this->completeGraphs[0];
     }
